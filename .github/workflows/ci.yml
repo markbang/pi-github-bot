@@ -21,3 +21,5 @@ jobs:
       - run: npm run build
       - run: npm test
       - run: npm audit --omit=dev --audit-level=high
+      - run: cp .env.example .env && docker compose config
+      - run: docker build --tag pi-github-bot:test .
