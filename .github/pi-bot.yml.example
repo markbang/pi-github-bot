@@ -1,0 +1,33 @@
+# Copy this file to .github/pi-bot.yml in a repository to override its defaults.
+enabled: true
+
+mention:
+  enabled: true
+  allowed_users: collaborators
+
+issue_triage:
+  enabled: true
+  on_opened: true
+  auto_reply: true
+  auto_labels: true
+  allowed_labels:
+    - bug
+    - feature
+    - question
+    - documentation
+    - needs-reproduction
+    - good first issue
+
+pull_request_review:
+  enabled: true
+  on_opened: true
+  on_reopened: true
+  on_synchronize: true
+  on_ready_for_review: true
+  skip_draft: true
+  skip_forks: true
+  mode: summary # summary posts a comment; review submits a GitHub review
+
+agent:
+  allow_write: false
+  # provider, model, thinking_level, and timeout_minutes can override server defaults.
