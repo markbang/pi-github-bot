@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+const booleanEnv = z.enum(["true", "false"]).default("false").transform((value) => value === "true");
+
 const envSchema = z.object({
   GITHUB_APP_ID: z.coerce.number().int().positive(),
   GITHUB_APP_SLUG: z.string().min(1),
@@ -16,7 +18,7 @@ const envSchema = z.object({
   PI_THINKING_LEVEL: z.string().default("medium"),
   PI_TIMEOUT_MINUTES: z.coerce.number().int().positive().default(15),
   PI_MAX_CONCURRENCY: z.coerce.number().int().positive().default(2),
-  ALLOW_AGENT_WRITES: z.coerce.boolean().default(false)
+  ALLOW_AGENT_WRITES: booleanEnv
 });
 
 export type AppConfig = z.infer<typeof envSchema>;
