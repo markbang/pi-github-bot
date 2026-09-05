@@ -61,6 +61,16 @@ await ensureDatabase(db);
 await server.listen({ host: "0.0.0.0", port: config.PORT });
 console.log(`pi GitHub App listening on ${config.PORT}`);
 
+for (const signal of ["SIGINT", "SIGTERM"] as const) {
+  process.once(signal, async () => {
+    await server.close();
+    await queue.close();
+    await redis.quit();
+    await db.end();
+    process.exit(0);
+  });
+}
+
 function authorized(value: string | undefined): boolean {
   return value === `Bearer ${config.SETUP_TOKEN}`;
 }

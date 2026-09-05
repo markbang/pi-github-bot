@@ -95,4 +95,12 @@ async function getToken(app: App, installationId: number): Promise<string> {
 
 await ensureDatabase(db);
 worker.on("failed", (job, error) => console.error("pi task failed", job?.id, error));
+for (const signal of ["SIGINT", "SIGTERM"] as const) {
+  process.once(signal, async () => {
+    await worker.close();
+    await redis.quit();
+    await db.end();
+    process.exit(0);
+  });
+}
 console.log(`pi worker ready with concurrency ${config.PI_MAX_CONCURRENCY}`);
